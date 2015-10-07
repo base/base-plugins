@@ -1,0 +1,41 @@
+{
+  "name": "base-plugins",
+  "description": "Upgrade's plugin support in base-methods to allow plugins to be called any time after init.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/jonschlinkert/base-plugins",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/base-plugins",
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/base-plugins/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "base-methods": "^0.2.13",
+    "mocha": "*",
+    "should": "*"
+  },
+  "keywords": [
+    "plugin",
+    "plugins"
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "base-data",
+        "base-options",
+        "base-methods"
+      ]
+    }
+  }
+}
