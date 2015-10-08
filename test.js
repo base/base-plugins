@@ -41,6 +41,15 @@ describe('plugins', function() {
         done();
       });
     });
+
+    it('should emit `use`:', function(done) {
+      base.on('use', function () {
+        done();
+      });
+
+      base.use(function (app) {
+      });
+    });
   });
 
   describe('run', function() {
@@ -74,6 +83,53 @@ describe('plugins', function() {
       assert(config.a);
       assert(config.c);
       assert(config.e);
+    });
+
+    it('should push returned functions onto `plugins`:', function(done) {
+      base.use(function() {
+        return function() {
+        };
+      });
+      assert(base.plugins.length === 1);
+      done();
+    });
+
+    it('should run all stored plugins:', function(done) {
+      base.use(function(app) {
+        return function(config) {
+          app.foo = config.foo;
+        };
+      });
+
+      var config = {foo: 'bar'};
+      base.run(config);
+      assert(base.foo === 'bar');
+      done();
+    });
+
+    it('should call the `use` method on the object passed to run:', function(done) {
+      base.use(function() {
+        return function(config) {
+          config.a = 'a';
+        };
+      });
+      base.use(function() {
+        return function(config) {
+          config.b = 'b';
+        };
+      });
+      base.use(function() {
+        return function(config) {
+          config.c = 'c';
+        };
+      });
+
+      var config = new Base();
+      base.run(config);
+      assert(config.a === 'a');
+      assert(config.b === 'b');
+      assert(config.c === 'c');
+      done();
     });
   });
 });
