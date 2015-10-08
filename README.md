@@ -36,7 +36,7 @@ base.run(foo);
 
 ## API
 
-### [.use](index.js#L42)
+### [.use](index.js#L39)
 
 Define a plugin function to be called immediately upon init. The only parameter exposed to the plugin is the application instance.
 
@@ -64,7 +64,7 @@ var app = new Base()
   .use(baz)
 ```
 
-### [.run](index.js#L63)
+### [.run](index.js#L66)
 
 Run all plugins
 
