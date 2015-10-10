@@ -1,7 +1,7 @@
 {
   "name": "base-plugins",
   "description": "Upgrade's plugin support in base-methods to allow plugins to be called any time after init.",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "homepage": "https://github.com/jonschlinkert/base-plugins",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/base-plugins",
