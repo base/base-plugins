@@ -8,6 +8,9 @@
 'use strict';
 
 module.exports = function(app) {
+  if (!this.plugins) {
+    this.define('plugins', []);
+  }
 
   /**
    * Define a plugin function to be called immediately upon init.
@@ -37,10 +40,6 @@ module.exports = function(app) {
    */
 
   app.mixin('use', function(fn) {
-    if (!this.plugins) {
-      this.define('plugins', []);
-    }
-
     var plugin = fn.call(this, this);
     if (typeof plugin === 'function') {
       this.plugins.push(plugin);

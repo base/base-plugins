@@ -108,21 +108,22 @@ describe('plugins', function() {
     });
 
     it('should call the `use` method on the object passed to run:', function(done) {
-      base.use(function() {
-        return function(config) {
-          config.a = 'a';
-        };
-      });
-      base.use(function() {
-        return function(config) {
-          config.b = 'b';
-        };
-      });
-      base.use(function() {
-        return function(config) {
-          config.c = 'c';
-        };
-      });
+      base
+        .use(function() {
+          return function(config) {
+            config.a = 'a';
+          };
+        })
+        .use(function() {
+          return function(config) {
+            config.b = 'b';
+          };
+        })
+        .use(function() {
+          return function(config) {
+            config.c = 'c';
+          };
+        });
 
       var config = new Base();
       base.run(config);
