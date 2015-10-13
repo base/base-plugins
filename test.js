@@ -132,5 +132,37 @@ describe('plugins', function() {
       assert(config.c === 'c');
       done();
     });
+
+    it('should call the `use` method on the function __proto__ passed to run:', function(done) {
+      base
+        .use(function() {
+          return function(config) {
+            config.a = 'a';
+          };
+        })
+        .use(function() {
+          return function(config) {
+            config.b = 'b';
+          };
+        })
+        .use(function() {
+          return function(config) {
+            config.c = 'c';
+          };
+        });
+
+      var config = new Base();
+      var fn = function () {};
+      fn.__proto__ = config;
+
+      base.run(fn);
+      assert(config.a === 'a');
+      assert(config.b === 'b');
+      assert(config.c === 'c');
+      assert(fn.a === 'a');
+      assert(fn.b === 'b');
+      assert(fn.c === 'c');
+      done();
+    });
   });
 });

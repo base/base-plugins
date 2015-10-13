@@ -40,7 +40,8 @@ module.exports = function(app) {
    */
 
   app.mixin('use', function(fn) {
-    var plugin = fn.call(this, this);
+    var thisArg = (typeof this === 'function' ? this.__proto__ : this);
+    var plugin = fn.call(thisArg, thisArg);
     if (typeof plugin === 'function') {
       this.plugins.push(plugin);
     }
