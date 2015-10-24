@@ -1,7 +1,7 @@
 {
   "name": "base-plugins",
   "description": "Upgrade's plugin support in base-methods to allow plugins to be called any time after init.",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "homepage": "https://github.com/jonschlinkert/base-plugins",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/base-plugins",
@@ -20,7 +20,7 @@
     "test": "mocha"
   },
   "devDependencies": {
-    "base-methods": "^0.2.14",
+    "base-methods": "^0.3.0",
     "gulp": "^3.9.0",
     "gulp-istanbul": "^0.10.1",
     "gulp-jshint": "^1.11.2",
