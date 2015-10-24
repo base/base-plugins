@@ -8,8 +8,8 @@
 'use strict';
 
 module.exports = function(app) {
-  if (!this.plugins) {
-    this.define('plugins', []);
+  if (!this.fns) {
+    this.define('fns', []);
   }
 
   /**
@@ -18,7 +18,7 @@ module.exports = function(app) {
    * instance.
    *
    * Also, if a plugin returns a function, the function will be pushed
-   * onto the `plugins` array, allowing the plugin to be called at a
+   * onto the `fns` array, allowing the plugin to be called at a
    * later point, elsewhere in the application.
    *
    * ```js
@@ -39,12 +39,11 @@ module.exports = function(app) {
    * @api public
    */
 
-  app.mixin('use', function(fn) {
+  app.mixin('use', function (fn) {
     var plugin = fn.call(this, this);
     if (typeof plugin === 'function') {
-      this.plugins.push(plugin);
+      this.fns.push(plugin);
     }
-
     this.emit('use');
     return this;
   });
@@ -62,8 +61,8 @@ module.exports = function(app) {
    * @api public
    */
 
-  app.mixin('run', function(val) {
-    this.plugins.forEach(function (fn) {
+  app.mixin('run', function (val) {
+    this.fns.forEach(function (fn) {
       if (typeof val.use === 'function') {
         val.use(fn);
       } else {
