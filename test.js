@@ -19,6 +19,29 @@ describe('plugins', function() {
       assert(typeof base.use === 'function');
     });
 
+    it('should add a `fns` property:', function() {
+      assert(base.fns);
+      assert(Array.isArray(base.fns));
+    });
+
+    it('should ensure the instance has the `fns` property:', function() {
+      base = new Base();
+      delete base.fns;
+      assert(!base.fns);
+      base.use(plugins);
+      assert(base.fns);
+      assert(Array.isArray(base.fns));
+    });
+
+    it('should not overwrite an existing `fns` property:', function() {
+      base = new Base();
+      base.fns = [function(){}];
+      base.use(plugins);
+      assert(base.fns);
+      assert(Array.isArray(base.fns));
+      assert(base.fns.length === 1);
+    });
+
     it('should call the function passed to `use`:', function(done) {
       base.use(function (app) {
         assert(app);
@@ -90,7 +113,7 @@ describe('plugins', function() {
         return function() {
         };
       });
-      assert(base.plugins.length === 1);
+      assert(base.fns.length === 1);
       done();
     });
 
