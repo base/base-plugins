@@ -39,7 +39,7 @@ module.exports = function(app) {
    * @api public
    */
 
-  app.mixin('use', function (fn) {
+  app.define('use', function (fn) {
     var plugin = fn.call(this, this);
     if (typeof plugin === 'function') {
       this.fns.push(plugin);
@@ -61,7 +61,7 @@ module.exports = function(app) {
    * @api public
    */
 
-  app.mixin('run', function (val) {
+  app.define('run', function (val) {
     this.fns.forEach(function (fn) {
       if (typeof val.use === 'function') {
         val.use(fn);

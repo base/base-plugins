@@ -14,11 +14,6 @@ describe('plugins', function() {
       base.use(plugins);
     });
 
-    it('should expose the use method:', function() {
-      assert(base.use);
-      assert(typeof base.use === 'function');
-    });
-
     it('should add a `fns` property:', function() {
       assert(base.fns);
       assert(Array.isArray(base.fns));
