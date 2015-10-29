@@ -7,10 +7,13 @@
 
 'use strict';
 
-module.exports = function () {
+var define = require('define-property');
+var isObject = require('isobject');
+
+module.exports = function base() {
   return function (app) {
-    if (!this.fns) {
-      this.define('fns', []);
+    if (!app.fns) {
+      define(app, 'fns', []);
     }
 
     /**
@@ -40,14 +43,7 @@ module.exports = function () {
      * @api public
      */
 
-    app.define('use', function (fn) {
-      var plugin = fn.call(this, this);
-      if (typeof plugin === 'function') {
-        this.fns.push(plugin);
-      }
-      this.emit('use');
-      return this;
-    });
+    define(app, 'use', use);
 
     /**
      * Run all plugins
@@ -62,16 +58,41 @@ module.exports = function () {
      * @api public
      */
 
-    app.define('run', function (val) {
+    define(app, 'run', function (val) {
+      install(val);
       this.fns.forEach(function (fn) {
-        if (typeof val.use === 'function') {
-          val.use(fn);
-        } else {
-          fn.call(val, val);
+        val.use(fn);
+        if (app.emit) {
           app.emit('use');
         }
       });
       return this;
     });
   };
+
+  /**
+   * Ensure the `.use` method exists on `val`
+   */
+
+  function install(val) {
+    if (isObject(val) && !val.use) {
+      define(val, 'fns', val.fns || []);
+      define(val, 'use', use);
+      val.use(base());
+    }
+  }
+
+  /**
+   * Call plugin `fn`. If a function is returned push it into the
+   * `fns` array to be called by the `run` method.
+   */
+
+  function use(fn) {
+    var plugin = fn.call(this, this);
+    if (typeof plugin === 'function') {
+      this.fns.push(plugin);
+    }
+    if (this.emit) this.emit('use');
+    return this;
+  }
 };

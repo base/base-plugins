@@ -28,6 +28,13 @@ describe('plugins', function() {
       assert(Array.isArray(base.fns));
     });
 
+    it('should ensure the object has a "use" method:', function() {
+      var foo = {};
+      plugins()(foo);
+      assert(foo.use);
+      assert(typeof foo.use === 'function');
+    });
+
     it('should not overwrite an existing `fns` property:', function() {
       base = new Base();
       base.fns = [function(){}];
