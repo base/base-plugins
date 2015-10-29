@@ -11,7 +11,7 @@ describe('plugins', function() {
   describe('use', function() {
     beforeEach(function() {
       base = new Base();
-      base.use(plugins);
+      base.use(plugins());
     });
 
     it('should add a `fns` property:', function() {
@@ -23,7 +23,7 @@ describe('plugins', function() {
       base = new Base();
       delete base.fns;
       assert(!base.fns);
-      base.use(plugins);
+      base.use(plugins());
       assert(base.fns);
       assert(Array.isArray(base.fns));
     });
@@ -31,7 +31,7 @@ describe('plugins', function() {
     it('should not overwrite an existing `fns` property:', function() {
       base = new Base();
       base.fns = [function(){}];
-      base.use(plugins);
+      base.use(plugins());
       assert(base.fns);
       assert(Array.isArray(base.fns));
       assert(base.fns.length === 1);
@@ -73,7 +73,7 @@ describe('plugins', function() {
   describe('run', function() {
     beforeEach(function() {
       base = new Base();
-      base.use(plugins);
+      base.use(plugins());
     });
 
     it('should expose the run method:', function() {
