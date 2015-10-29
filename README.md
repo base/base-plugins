@@ -53,7 +53,7 @@ console.log(collection.a);
 
 ## API
 
-### [.use](index.js#L43)
+### [.use](index.js#L46)
 
 Define a plugin function to be called immediately upon init. The only parameter exposed to the plugin is the application instance.
 
@@ -81,7 +81,7 @@ var app = new Base()
   .use(baz)
 ```
 
-### [.run](index.js#L65)
+### [.run](index.js#L61)
 
 Run all plugins
 
