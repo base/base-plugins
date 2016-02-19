@@ -11,7 +11,7 @@ var define = require('define-property');
 var isObject = require('isobject');
 
 module.exports = function base() {
-  return function (app) {
+  return function(app) {
     if (!app.fns) {
       define(app, 'fns', []);
     }
@@ -58,24 +58,26 @@ module.exports = function base() {
      * @api public
      */
 
-    define(app, 'run', function (val) {
-      install(val);
-      this.fns.forEach(function (fn) {
-        val.use(fn);
-        if (app.emit) {
-          app.emit('use');
-        }
-      });
+    define(app, 'run', function(val) {
+      if (!isObject(val)) return;
+      decorate(val);
+
+      var len = this.fns.length;
+      var idx = -1;
+      while (++idx < len) {
+        val.use(this.fns[idx]);
+      }
       return this;
     });
   };
 
   /**
-   * Ensure the `.use` method exists on `val`
+   * Prime the `.use` method and `fns`
+   * array on `val`
    */
 
-  function install(val) {
-    if (isObject(val) && !val.use) {
+  function decorate(val) {
+    if (!val.use) {
       define(val, 'fns', val.fns || []);
       define(val, 'use', use);
       val.use(base());

@@ -3,7 +3,7 @@
 require('mocha');
 require('should');
 var assert = require('assert');
-var Base = require('base-methods');
+var Base = require('base');
 var plugins = require('./');
 var base;
 
@@ -28,51 +28,58 @@ describe('plugins', function() {
       assert(Array.isArray(base.fns));
     });
 
-    it('should ensure the object has a "use" method:', function() {
-      var foo = {};
-      plugins()(foo);
-      assert(foo.use);
-      assert(typeof foo.use === 'function');
+    it('should ensure a plain object has the `fns` property:', function() {
+      var obj = {};
+      plugins()(obj);
+      assert(obj.fns);
+      assert(Array.isArray(obj.fns));
+    });
+
+    it('should ensure a plain object has a "use" method:', function() {
+      var obj = {};
+      plugins()(obj);
+      assert(obj.use);
+      assert.equal(typeof obj.use, 'function');
     });
 
     it('should not overwrite an existing `fns` property:', function() {
       base = new Base();
-      base.fns = [function(){}];
+      base.fns = [function() {}];
       base.use(plugins());
       assert(base.fns);
       assert(Array.isArray(base.fns));
-      assert(base.fns.length === 1);
+      assert.equal(base.fns.length, 1);
     });
 
-    it('should call the function passed to `use`:', function(done) {
-      base.use(function (app) {
+    it('should call the function passed to `use`:', function(cb) {
+      base.use(function(app) {
         assert(app);
-        done();
+        cb();
       });
     });
 
-    it('should expose the app instance:', function(done) {
+    it('should expose the app instance:', function(cb) {
       base.foo = 'bar';
-      base.use(function (app) {
-        assert(app.foo === 'bar');
-        done();
+      base.use(function(app) {
+        assert.equal(app.foo, 'bar');
+        cb();
       });
     });
 
-    it('should expose the app instance as "this":', function(done) {
+    it('should expose the app instance as "this":', function(cb) {
       base.foo = 'bar';
-      base.use(function (app) {
-        assert(this.foo === 'bar');
-        done();
+      base.use(function(app) {
+        assert.equal(this.foo, 'bar');
+        cb();
       });
     });
 
-    it('should emit `use`:', function(done) {
-      base.on('use', function () {
-        done();
+    it('should emit `use`:', function(cb) {
+      base.on('use', function() {
+        cb();
       });
 
-      base.use(function (app) {
+      base.use(function(app) {
       });
     });
   });
@@ -85,15 +92,17 @@ describe('plugins', function() {
 
     it('should expose the run method:', function() {
       assert(base.run);
-      assert(typeof base.run === 'function');
+      assert.equal(typeof base.run, 'function');
     });
 
-    it('should run all registered plugins:', function() {
+    it('should run all registered plugins:', function(cb) {
       var config = {};
+      var called = 0;
 
       function letter(ch, val) {
         return function(app) {
           return function(config) {
+            called++;
             config[ch] = val;
           };
         };
@@ -108,31 +117,50 @@ describe('plugins', function() {
       assert(config.a);
       assert(config.c);
       assert(config.e);
+      assert.equal(called, 3);
+      cb();
     });
 
-    it('should push returned functions onto `plugins`:', function(done) {
+    it('should push returned functions onto `plugins`:', function(cb) {
       base.use(function() {
         return function() {
         };
       });
-      assert(base.fns.length === 1);
-      done();
+      assert.equal(base.fns.length, 1);
+      cb();
     });
 
-    it('should run all stored plugins:', function(done) {
+    it('should run all stored plugins:', function(cb) {
+      var called = 0;
       base.use(function(app) {
         return function(config) {
+          called++;
           app.foo = config.foo;
         };
       });
 
       var config = {foo: 'bar'};
       base.run(config);
-      assert(base.foo === 'bar');
-      done();
+      assert.equal(base.foo, 'bar');
+      assert.equal(called, 1);
+      cb();
     });
 
-    it('should call the `use` method on the object passed to run:', function(done) {
+    it('should not run on non-object values', function(cb) {
+      var called = 0;
+      base.use(function(app) {
+        return function(config) {
+          called++;
+          app.foo = config.foo;
+        };
+      });
+
+      base.run('foo');
+      assert.equal(called, 0);
+      cb();
+    });
+
+    it('should call the `use` method on the object passed to run:', function(cb) {
       base
         .use(function() {
           return function(config) {
@@ -152,10 +180,10 @@ describe('plugins', function() {
 
       var config = new Base();
       base.run(config);
-      assert(config.a === 'a');
-      assert(config.b === 'b');
-      assert(config.c === 'c');
-      done();
+      assert.equal(config.a, 'a');
+      assert.equal(config.b, 'b');
+      assert.equal(config.c, 'c');
+      cb();
     });
   });
 });
