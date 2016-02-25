@@ -94,7 +94,9 @@ module.exports = function base() {
     if (typeof plugin === 'function') {
       this.fns.push(plugin);
     }
-    if (this.emit) this.emit('use');
+    if (this.emit) {
+      this.emit('use', plugin, this);
+    }
     return this;
   }
 };
