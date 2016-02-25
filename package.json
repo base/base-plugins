@@ -1,7 +1,7 @@
 {
   "name": "base-plugins",
-  "description": "Upgrade's plugin support in base-methods to allow plugins to be called any time after init.",
-  "version": "0.4.3",
+  "description": "Upgrade's plugin support in base applications to allow plugins to be called any time after init.",
+  "version": "0.4.4",
   "homepage": "https://github.com/jonschlinkert/base-plugins",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/base-plugins",
@@ -31,17 +31,26 @@
     "gulp-jshint": "^2.0.0",
     "gulp-mocha": "^2.2.0",
     "jshint-stylish": "^2.1.0",
-    "mocha": "^2.4.5",
-    "should": "^8.2.2"
+    "mocha": "*",
+    "should": "*"
   },
   "keywords": [
     "base",
-    "base-methods",
     "methods",
     "plugin",
     "plugins"
   ],
   "verb": {
+    "related": {
+      "list": [
+        "base",
+        "base-cli",
+        "base-config",
+        "base-data",
+        "base-fs",
+        "base-options"
+      ]
+    },
     "run": true,
     "toc": false,
     "layout": "default",
@@ -51,16 +60,6 @@
     "plugins": [
       "gulp-format-md"
     ],
-    "related": {
-      "list": [
-        "base-cli",
-        "base-config",
-        "base-data",
-        "base-fs",
-        "base-options",
-        "base-methods"
-      ]
-    },
     "reflinks": [
       "verb",
       "base"
