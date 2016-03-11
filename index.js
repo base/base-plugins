@@ -10,11 +10,17 @@
 var define = require('define-property');
 var isObject = require('isobject');
 
-module.exports = function base() {
+module.exports = function plugin(base) {
   return function(app) {
     if (!app.fns) {
       define(app, 'fns', []);
     }
+
+    /**
+     * Get the `base` instance
+     */
+
+    base = base || app.base || {};
 
     /**
      * Define a plugin function to be called immediately upon init.
@@ -80,7 +86,7 @@ module.exports = function base() {
     if (!val.use) {
       define(val, 'fns', val.fns || []);
       define(val, 'use', use);
-      val.use(base());
+      val.use(plugin());
     }
   }
 
@@ -90,12 +96,12 @@ module.exports = function base() {
    */
 
   function use(fn) {
-    var plugin = fn.call(this, this);
-    if (typeof plugin === 'function') {
-      this.fns.push(plugin);
+    var val = fn.call(this, this, base, this.env || {});
+    if (typeof val === 'function') {
+      this.fns.push(val);
     }
     if (this.emit) {
-      this.emit('use', plugin, this);
+      this.emit('use', val, this);
     }
     return this;
   }
