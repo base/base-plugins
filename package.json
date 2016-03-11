@@ -24,13 +24,12 @@
     "isobject": "^2.0.0"
   },
   "devDependencies": {
-    "base": "^0.7.3",
+    "base": "^0.8.0",
     "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
     "gulp-format-md": "^0.1.7",
     "gulp-istanbul": "^0.10.3",
-    "gulp-jshint": "^2.0.0",
     "gulp-mocha": "^2.2.0",
-    "jshint-stylish": "^2.1.0",
     "mocha": "*",
     "should": "*"
   },
