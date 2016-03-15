@@ -1,7 +1,7 @@
 {
   "name": "base-plugins",
   "description": "Upgrade's plugin support in base applications to allow plugins to be called any time after init.",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "homepage": "https://github.com/jonschlinkert/base-plugins",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/base-plugins",
@@ -24,14 +24,14 @@
     "isobject": "^2.0.0"
   },
   "devDependencies": {
-    "base": "^0.8.0",
+    "base": "^0.8.1",
     "gulp": "^3.9.1",
     "gulp-eslint": "^2.0.0",
     "gulp-format-md": "^0.1.7",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0",
-    "mocha": "*",
-    "should": "*"
+    "mocha": "^2.4.5",
+    "should": "^8.2.2"
   },
   "keywords": [
     "base",
