@@ -10,17 +10,12 @@
 var define = require('define-property');
 var isObject = require('isobject');
 
-module.exports = function plugin(base) {
+module.exports = function plugin() {
   return function(app) {
+    if (isRegistered(this)) return;
     if (!app.fns) {
       define(app, 'fns', []);
     }
-
-    /**
-     * Get the `base` instance
-     */
-
-    base = base || app.base || {};
 
     /**
      * Define a plugin function to be called immediately upon init.
@@ -95,8 +90,8 @@ module.exports = function plugin(base) {
    * `fns` array to be called by the `run` method.
    */
 
-  function use(fn) {
-    var val = fn.call(this, this, base, this.env || {});
+  function use(fn, options) {
+    var val = fn.call(this, this, this.base || {}, this.env || {}, options);
     if (typeof val === 'function') {
       this.fns.push(val);
     }
@@ -106,3 +101,20 @@ module.exports = function plugin(base) {
     return this;
   }
 };
+
+/**
+ * This check allows this plugin to be used
+ * with non-base applications.
+ */
+
+function isRegistered(app) {
+  app = app || {};
+  if (typeof app.isRegistered === 'function') {
+    return app.isRegistered('base-plugins');
+  }
+
+  if (!app.isRegistered) {
+    app.isRegistered = true;
+    return false;
+  }
+}
