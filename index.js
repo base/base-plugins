@@ -12,7 +12,7 @@ var isObject = require('isobject');
 
 module.exports = function plugin() {
   return function(app) {
-    if (!isValidInstance(this)) return;
+    if (isRegistered(app || {})) return;
     if (!app.fns) {
       define(app, 'fns', []);
     }
@@ -102,23 +102,13 @@ module.exports = function plugin() {
   }
 };
 
-/**
- * This check allows this plugin to be used
- * with non-base applications.
- */
-
-function isValidInstance(app) {
-  app = app || {};
-  app.options = app.options || {};
-  var fn = app.options.validatePlugin;
-  if (typeof fn === 'function' && !fn(app)) {
-    return false;
+function isRegistered(app) {
+  if (typeof app.isRegistered === 'function') {
+    return app.isRegistered('base-plugins');
   }
-  if (typeof app.isRegistered === 'function' && app.isRegistered('base-plugins')) {
-    return false;
+  if (app.registered === true) {
+    return true;
   }
-  if (app.isCollection || app.isView) {
-    return false;
-  }
-  return true;
+  app.registered = true;
+  return false;
 }
