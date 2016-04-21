@@ -47,7 +47,7 @@
         "base-config",
         "base-data",
         "base-fs",
-        "base-options"
+        "base-option"
       ]
     },
     "run": true,
@@ -60,8 +60,8 @@
       "gulp-format-md"
     ],
     "reflinks": [
-      "verb",
-      "base"
+      "base",
+      "verb"
     ],
     "lint": {
       "reflinks": true
