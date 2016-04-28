@@ -91,7 +91,7 @@ module.exports = function plugin() {
    */
 
   function use(fn, options) {
-    var val = fn.call(this, this, this.base || {}, this.env || {}, options);
+    var val = fn.call(this, this, this.base || {}, this.env || {}, options || {});
     if (typeof val === 'function') {
       this.fns.push(val);
     }
