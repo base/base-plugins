@@ -1,7 +1,7 @@
 {
   "name": "base-plugins",
   "description": "Upgrade's plugin support in base applications to allow plugins to be called any time after init.",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "homepage": "https://github.com/node-base/base-plugins",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "node-base/base-plugins",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "define-property": "^0.2.5",
-    "isobject": "^2.0.0"
+    "isobject": "^2.1.0"
   },
   "devDependencies": {
     "base": "^0.8.1",
@@ -35,7 +35,6 @@
   },
   "keywords": [
     "base",
-    "methods",
     "plugin",
     "plugins"
   ],
