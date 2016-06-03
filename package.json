@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "define-property": "^0.2.5",
+    "is-registered": "^0.1.5",
     "isobject": "^2.1.0"
   },
   "devDependencies": {

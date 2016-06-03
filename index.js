@@ -7,6 +7,7 @@
 
 'use strict';
 
+var isRegistered = require('is-registered');
 var define = require('define-property');
 var isObject = require('isobject');
 
@@ -101,24 +102,3 @@ module.exports = function plugin() {
     return this;
   }
 };
-
-function isRegistered(app, name) {
-  if (!isObject(app)) return true;
-
-  if (typeof app.isRegistered === 'function') {
-    return app.isRegistered(name);
-  }
-
-  app.registered = app.registered || {};
-  app.isRegistered = function(name, register) {
-    if (app.registered.hasOwnProperty(name)) {
-      return true;
-    }
-    // allow check without registering
-    if (register !== false) {
-      app.registered[name] = true;
-    }
-    return false;
-  };
-  return false;
-}
