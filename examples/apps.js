@@ -1,6 +1,6 @@
 'use strict';
 
-var plugins = require('./');
+var plugins = require('..');
 var Base = require('base');
 Base.use(plugins());
 
