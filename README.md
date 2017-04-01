@@ -1,13 +1,13 @@
-# base-plugins [![NPM version](https://img.shields.io/npm/v/base-plugins.svg?style=flat)](https://www.npmjs.com/package/base-plugins) [![NPM downloads](https://img.shields.io/npm/dm/base-plugins.svg?style=flat)](https://npmjs.org/package/base-plugins) [![Build Status](https://img.shields.io/travis/node-base/base-plugins.svg?style=flat)](https://travis-ci.org/node-base/base-plugins)
+# base-plugins [![NPM version](https://img.shields.io/npm/v/base-plugins.svg?style=flat)](https://www.npmjs.com/package/base-plugins) [![NPM monthly downloads](https://img.shields.io/npm/dm/base-plugins.svg?style=flat)](https://npmjs.org/package/base-plugins)  [![NPM total downloads](https://img.shields.io/npm/dt/base-plugins.svg?style=flat)](https://npmjs.org/package/base-plugins) [![Linux Build Status](https://img.shields.io/travis/node-base/base-plugins.svg?style=flat&label=Travis)](https://travis-ci.org/node-base/base-plugins)
 
-Upgrade's plugin support in base applications to allow plugins to be called any time after init.
+> Adds 'smart plugin' support to your base application.
 
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
 
 ```sh
-$ npm install base-plugins --save
+$ npm install --save base-plugins
 ```
 
 **What does this do?**
@@ -36,7 +36,7 @@ Once the `use` method is called:
 
 1. a `fns` array is added to the instance for storing plugin functions
 2. a `run` method is added to the instance for running stored plugins
-3. the `use` method is modified so that anytime a function is returned by a plugin it will automatically be pushed onto the `fns` array. Besides that, you shouldn't see any behavioral changes in how the `use` method works.
+3. the `use` method is modified so that anytime a function is returned by a plugin, the function will be pushed onto the `fns` array. Aside from that, you shouldn't see any difference in how the `use` method works.
 
 ## .run example
 
@@ -60,7 +60,7 @@ console.log(collection.a);
 
 ## API
 
-### [.use](index.js#L48)
+### [.use](index.js#L54)
 
 Define a plugin function to be called immediately upon init. The only parameter exposed to the plugin is the application instance.
 
@@ -88,7 +88,7 @@ var app = new Base()
   .use(baz)
 ```
 
-### [.run](index.js#L63)
+### [.run](index.js#L69)
 
 Run all plugins
 
@@ -104,51 +104,51 @@ var config = {};
 app.run(config);
 ```
 
-## Related projects
+## About
 
-You might also be interested in these projects:
+### Related projects
 
-* [base-cli](https://www.npmjs.com/package/base-cli): Plugin for base-methods that maps built-in methods to CLI args (also supports methods from a… [more](https://www.npmjs.com/package/base-cli) | [homepage](https://github.com/node-base/base-cli)
-* [base-config](https://www.npmjs.com/package/base-config): base-methods plugin that adds a `config` method for mapping declarative configuration values to other 'base'… [more](https://www.npmjs.com/package/base-config) | [homepage](https://github.com/node-base/base-config)
-* [base-data](https://www.npmjs.com/package/base-data): adds a `data` method to base-methods. | [homepage](https://github.com/node-base/base-data)
-* [base-fs](https://www.npmjs.com/package/base-fs): base-methods plugin that adds vinyl-fs methods to your 'base' application for working with the file… [more](https://www.npmjs.com/package/base-fs) | [homepage](https://github.com/node-base/base-fs)
-* [base-option](https://www.npmjs.com/package/base-option): Adds a few options methods to base, like `option`, `enable` and `disable`. See the readme… [more](https://www.npmjs.com/package/base-option) | [homepage](https://github.com/node-base/base-option)
-* [base](https://www.npmjs.com/package/base): base is the foundation for creating modular, unit testable and highly pluggable node.js applications, starting… [more](https://www.npmjs.com/package/base) | [homepage](https://github.com/node-base/base)
+* [base-cli](https://www.npmjs.com/package/base-cli): Plugin for base-methods that maps built-in methods to CLI args (also supports methods from a… [more](https://github.com/node-base/base-cli) | [homepage](https://github.com/node-base/base-cli "Plugin for base-methods that maps built-in methods to CLI args (also supports methods from a few plugins, like 'base-store', 'base-options' and 'base-data'.")
+* [base-config](https://www.npmjs.com/package/base-config): base-methods plugin that adds a `config` method for mapping declarative configuration values to other 'base… [more](https://github.com/node-base/base-config) | [homepage](https://github.com/node-base/base-config "base-methods plugin that adds a `config` method for mapping declarative configuration values to other 'base' methods or custom functions.")
+* [base-data](https://www.npmjs.com/package/base-data): adds a `data` method to base-methods. | [homepage](https://github.com/node-base/base-data "adds a `data` method to base-methods.")
+* [base-fs](https://www.npmjs.com/package/base-fs): base-methods plugin that adds vinyl-fs methods to your 'base' application for working with the file… [more](https://github.com/node-base/base-fs) | [homepage](https://github.com/node-base/base-fs "base-methods plugin that adds vinyl-fs methods to your 'base' application for working with the file system, like src, dest, copy and symlink.")
+* [base-option](https://www.npmjs.com/package/base-option): Adds a few options methods to base, like `option`, `enable` and `disable`. See the readme… [more](https://github.com/node-base/base-option) | [homepage](https://github.com/node-base/base-option "Adds a few options methods to base, like `option`, `enable` and `disable`. See the readme for the full API.")
+* [base](https://www.npmjs.com/package/base): Framework for rapidly creating high quality node.js applications, using plugins like building blocks | [homepage](https://github.com/node-base/base "Framework for rapidly creating high quality node.js applications, using plugins like building blocks")
 
-## Contributing
+### Contributing
 
-This document was generated by [verb](https://github.com/verbose/verb), please don't edit directly. Any changes to the readme must be made in [.verb.md](.verb.md). See [Building Docs](#building-docs).
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new).
 
-Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/node-base/base-plugins/issues/new).
+### Building docs
 
-## Building docs
+_(This project's readme.md is generated by [verb](https://github.com/verbose/verb-generate-readme), please don't edit the readme directly. Any changes to the readme must be made in the [.verb.md](.verb.md) readme template.)_
 
-Generate readme and API documentation with [verb](https://github.com/verbose/verb):
-
-```sh
-$ npm install -g verb verb-readme-generator && verb
-```
-
-## Running tests
-
-Install dev dependencies:
+To generate the readme, run the following command:
 
 ```sh
-$ npm install -d && npm test
+$ npm install -g verbose/verb#dev verb-generate-readme && verb
 ```
 
-## Author
+### Running tests
+
+Running and reviewing unit tests is a great way to get familiarized with a library and its API. You can install dependencies and run tests with the following command:
+
+```sh
+$ npm install && npm test
+```
+
+### Author
 
 **Jon Schlinkert**
 
 * [github/jonschlinkert](https://github.com/jonschlinkert)
-* [twitter/jonschlinkert](http://twitter.com/jonschlinkert)
+* [twitter/jonschlinkert](https://twitter.com/jonschlinkert)
 
-## License
+### License
 
-Copyright © 2016, [Jon Schlinkert](https://github.com/jonschlinkert).
-Released under the [MIT license](https://github.com/node-base/base-plugins/blob/master/LICENSE).
+Copyright © 2017, [Jon Schlinkert](https://github.com/jonschlinkert).
+Released under the [MIT License](LICENSE).
 
 ***
 
-_This file was generated by [verb](https://github.com/verbose/verb), v0.9.0, on June 03, 2016._
+_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.4.3, on April 01, 2017._
