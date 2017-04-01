@@ -84,6 +84,46 @@ describe('plugins', function() {
     });
   });
 
+  describe('named plugins', function() {
+    it('should register named plugins', function() {
+      var app = new Base();
+      app.use(plugins());
+      app.type = 'app';
+      app.use(plugins());
+      var names = [];
+
+      app.use('foo', function() {
+        names.push(this.type);
+      });
+
+      app.use('bar', function() {
+        names.push(this.type);
+      });
+
+      app.use('baz', function() {
+        names.push(this.type);
+      });
+
+      var foo = new Base();
+      foo.type = 'foo';
+      foo.parent = app;
+      app.run(foo);
+
+      var bar = new Base();
+      bar.type = 'bar';
+      bar.parent = foo;
+      foo.run(bar);
+
+      var baz = new Base();
+      baz.type = 'baz';
+      baz.parent = bar;
+      bar.run(baz);
+
+      assert.deepEqual(names, ['foo', 'bar', 'baz']);
+    });
+
+  });
+
   describe('run', function() {
     beforeEach(function() {
       base = new Base();

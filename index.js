@@ -1,19 +1,25 @@
 /*!
- * base-plugins <https://github.com/jonschlinkert/base-plugins>
+ * base-plugins <https://github.com/node-base/base-plugins>
  *
- * Copyright (c) 2015, Jon Schlinkert.
- * Licensed under the MIT License.
+ * Copyright (c) 2015, 2017, Jon Schlinkert.
+ * Released under the MIT License.
  */
 
 'use strict';
 
 var isRegistered = require('is-registered');
+var isValid = require('is-valid-instance');
 var define = require('define-property');
 var isObject = require('isobject');
 
 module.exports = function plugin() {
-  return function(app) {
+  return function fn(app) {
     if (isRegistered(app, 'base-plugins')) return;
+
+    /**
+     * Cache plugins
+     */
+
     if (!app.fns) {
       define(app, 'fns', []);
     }
@@ -62,7 +68,15 @@ module.exports = function plugin() {
 
     define(app, 'run', function(val) {
       if (!isObject(val)) return;
-      decorate(val);
+
+      if (!val.use) {
+        define(val, 'fns', val.fns || []);
+        define(val, 'use', use);
+      }
+
+      if (!val.fns || val.fns.indexOf(fn) === -1) {
+        val.use(fn);
+      }
 
       var len = this.fns.length;
       var idx = -1;
@@ -71,34 +85,47 @@ module.exports = function plugin() {
       }
       return this;
     });
+
+    return fn;
   };
-
-  /**
-   * Prime the `.use` method and `fns`
-   * array on `val`
-   */
-
-  function decorate(val) {
-    if (!val.use) {
-      define(val, 'fns', val.fns || []);
-      define(val, 'use', use);
-      val.use(plugin());
-    }
-  }
 
   /**
    * Call plugin `fn`. If a function is returned push it into the
    * `fns` array to be called by the `run` method.
    */
 
-  function use(fn, options) {
-    var val = fn.call(this, this, this.base || {}, this.env || {}, options || {});
+  function use(type, fn, options) {
+    if (typeof type === 'string' || Array.isArray(type)) {
+      fn = wrap(type, fn);
+    } else {
+      options = fn;
+      fn = type;
+    }
+
+    var val = fn.call(this, this, this.base || {}, options || {}, this.env || {});
     if (typeof val === 'function') {
       this.fns.push(val);
     }
-    if (this.emit) {
+
+    if (typeof this.emit === 'function') {
       this.emit('use', val, this);
     }
     return this;
+  }
+
+  /**
+   * Wrap a named plugin function so that it's only called on objects of the
+   * given `type`
+   *
+   * @param {String} `type`
+   * @param {Function} `fn` Plugin function
+   * @return {Function}
+   */
+
+  function wrap(type, fn) {
+    return function plugin() {
+      if (!isValid(this, type)) return plugin;
+      return fn.apply(this, arguments);
+    };
   }
 };
